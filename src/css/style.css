@@ -4,4 +4,69 @@ font-size: 20px;
 }
 .text {
   display: block;
+  text-align: left;
+}
+.input1 {
+position: absolute;
+bottom: 0;
+width: 100%;
+float: left ;
+
+}
+.text1 {
+    margin: 2px;
+    float: left;
+    width: 90%;
+    padding: 10px 20px;
+    border: none;
+}
+.btn {
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 15px;
+}
+.header {
+  width: auto;
+  height: 30px;
+  overflow: hidden;
+  background-color: rgb(83, 91, 100);
+
+}
+.header a {
+  float: left;
+  color: black;
+  text-align: center;
+  padding: 12px;
+  text-decoration: none;
+  font-size: 18px; 
+  line-height: 25px;
+  border-radius: 4px;
+}
+.header a.logo {
+  float: inherit;
+  text-align: center;
+  font-size: 25px;
+  font-weight: bold;
+  
+}
+
+
+.site-container1{ 
+  position: relative;
+  width: auto; 
+  margin: 0 auto; 
+  background-color: #45455849;
+  border: 6px solid rgb(33, 34, 33);
+  text-align : center;
+  height: 96vh;
+}
+
+#paste {
+  height: 85vh;
+  overflow: auto;
 }
