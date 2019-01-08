@@ -21,9 +21,9 @@ connection.onmessage = message => {
       const messagein = document.getElementById('msg1');
       const div = document.importNode(messagein.content, true);
 
-      const time = new Date(obj.data.time).toString();
+      const time = new Date(messagehistory.time).toString();
 
-      div.firstElementChild.textContent = `${time.substr(0, 23)} ${messagehistory.author} ${
+      div.firstElementChild.textContent = `${time.substr(0, 23)} ${messagehistory.author}: ${
         messagehistory.text
       }`;
       div.firstElementChild.style = `color: ${messagehistory.color}`;
@@ -33,13 +33,19 @@ connection.onmessage = message => {
       console.log(obj.data.text);
     });
   }
+  if (obj.type === 'color') {
+    const colorin = document.getElementById('msg');
+    colorin.setAttribute('placeholder', 'Skriv in ditt medelande');
+  }
   if (obj.type === 'message') {
     const messagein = document.getElementById('msg1');
     const div = document.importNode(messagein.content, true);
 
     const time = new Date(obj.data.time).toString();
 
-    div.firstElementChild.textContent = `${time.substr(0, 23)} ${obj.data.author} ${obj.data.text}`;
+    div.firstElementChild.textContent = `${time.substr(0, 23)} ${obj.data.author}:  ${
+      obj.data.text
+    }`;
     div.firstElementChild.style = `color: ${obj.data.color}`;
 
     const paste = document.getElementById('paste');
