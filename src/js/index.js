@@ -3,12 +3,27 @@ import style from '../css/style.css';
 /* eslint-enable no-unused-vars */
 import password from './config';
 
+const printmessage = (time, text, author, color) => {
+  const messagein = document.getElementById('msg1');
+  const div = document.importNode(messagein.content, true);
+
+  const realtime = new Date(time).toString();
+  div.firstElementChild.textContent = `${realtime.substr(0, 23)} ${author}:  ${text}`;
+  div.firstElementChild.style = `color: ${color}`;
+
+  const paste = document.getElementById('paste');
+  paste.appendChild(div);
+  const objDiv = document.getElementById('paste');
+  objDiv.scrollTop = objDiv.scrollHeight;
+};
 const connection = new WebSocket('ws://104.248.143.87:1337');
 connection.onopen = () => {
   console.log('uppkoppling started ... ');
 };
 connection.onerror = error => {
+  const error1 = document.getElementById('logo');
   console.log(`Error: ${error}`);
+  error1.textContent = error;
 };
 connection.onmessage = message => {
   const textEl = document.getElementById('logger');
@@ -18,19 +33,12 @@ connection.onmessage = message => {
   if (obj.type === 'history') {
     obj.data.forEach(messagehistory => {
       console.log(messagehistory);
-      const messagein = document.getElementById('msg1');
-      const div = document.importNode(messagein.content, true);
-
-      const time = new Date(messagehistory.time).toString();
-
-      div.firstElementChild.textContent = `${time.substr(0, 23)} ${messagehistory.author}: ${
-        messagehistory.text
-      }`;
-      div.firstElementChild.style = `color: ${messagehistory.color}`;
-
-      const paste = document.getElementById('paste');
-      paste.appendChild(div);
-      console.log(obj.data.text);
+      printmessage(
+        messagehistory.time,
+        messagehistory.text,
+        messagehistory.author,
+        messagehistory.color
+      );
     });
   }
   if (obj.type === 'color') {
@@ -38,24 +46,17 @@ connection.onmessage = message => {
     colorin.setAttribute('placeholder', 'Skriv in ditt medelande');
   }
   if (obj.type === 'message') {
-    const messagein = document.getElementById('msg1');
-    const div = document.importNode(messagein.content, true);
-
-    const time = new Date(obj.data.time).toString();
-
-    div.firstElementChild.textContent = `${time.substr(0, 23)} ${obj.data.author}:  ${
-      obj.data.text
-    }`;
-    div.firstElementChild.style = `color: ${obj.data.color}`;
-
-    const paste = document.getElementById('paste');
-    paste.appendChild(div);
-    console.log(obj.data.text);
+    printmessage(obj.data.time, obj.data.text, obj.data.author, obj.data.color);
   }
   if (obj.type === 'heartbeat') {
     textEl.textContent += `${obj.data},`;
   }
+  if (obj.type === 'error') {
+    const error1 = document.getElementById('logo');
+    error1.textContent = 'Oops Something Went Wrong';
+  }
 };
+
 connection.onclose = () => {
   console.log('upploppling nedstängd ...');
 };
